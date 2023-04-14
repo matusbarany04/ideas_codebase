@@ -1,8 +1,14 @@
 <script>
-  import { page } from "$app/stores";
+  
+  import { onMount } from "svelte";
   // import { emojis } from './emojis.js';
 import cat from '$lib/images/cat.gif';
-  const error_code = $page.url.searchParams.get("ec");
+let error_code= "...";
+  onMount(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    error_code = urlSearchParams.get('ec');
+  });
+  //const error_code = $page.url.searchParams.get("ec");
 </script>
 
 <!-- 

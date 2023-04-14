@@ -1,13 +1,14 @@
 <script>
-  import { page } from "$app/stores";
+  // import { page } from "$app/stores";
   import { onMount } from "svelte";
   
-  const id = $page.url.searchParams.get("id");
-  // console.log(id);
-  // export let data;
+  // const id = $page.url.searchParams.get("id");
+
   let data;
 
   onMount(async function () {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const id = urlSearchParams.get('id');
     const response = await fetch("http://localhost:8000/api/ideas/" + id);
     if(response.status == 200)
       data = await response.json();
