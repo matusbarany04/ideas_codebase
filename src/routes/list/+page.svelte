@@ -9,7 +9,7 @@
 	
 
 	onMount(async function () {
-    	const response = await fetch("http://localhost:8000/api/ideas");
+    	const response = await fetch("http://dismounted.tech:8000/api/ideas");
     	const data = await response.json();
     	console.log(data);
 		posts = data;

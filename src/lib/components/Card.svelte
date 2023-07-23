@@ -1,28 +1,30 @@
 <script>
   export let data;
-//   import Explore from '$lib/images/Explore.svg';
+  //   import Explore from '$lib/images/Explore.svg';
+  let colors = ["#09BC8A", "#FD5E09", "#48BEFF", "#F9F9F9"];
 
+  let index = Math.floor(Math.random() * colors.length);
 </script>
 
 <div class="card_container">
   <div class="card_header">
-    <div style="flex:1" />  
+    <div style="flex:1" />
     <svg
       class="header"
       viewBox="0 0 187 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M22 0H187V26H0L22 0Z" fill="#48BEFF" />
+      <path d="M22 0H187V26H0L22 0Z" fill={colors[index]} />
     </svg>
   </div>
-  <div class="card_body">
+  <div class="card_body" style={"background-color:" + colors[index]}>
     <div class="title_cont">
       <p class="title">{data.title}</p>
     </div>
     <p class="desc">{data.description}</p>
     <a class="explore_button" href={"/detail?id=" + data.id}>
-        <svg
+      <svg
         width="44"
         height="44"
         viewBox="0 0 44 44"
@@ -76,7 +78,6 @@
           </filter>
         </defs>
       </svg>
-      
     </a>
   </div>
 </div>
@@ -85,7 +86,7 @@
   * {
     /* border: 1px solid red; */
     color: black;
-}
+  }
   .card_container {
     display: flex;
     flex-direction: column;
@@ -98,13 +99,14 @@
     position: relative;
     padding: 1rem;
     flex: 10;
-    background-color: #48beff;
+   
   }
   .card_header {
     display: flex;
   }
   .header {
     flex: 1;
+    margin-bottom: -1px;
   }
 
   .title_cont {
@@ -133,11 +135,11 @@
     right: 0;
     margin: 1rem;
   }
-  .explore_button:hover{
+  .explore_button:hover {
     cursor: pointer;
     transform: scale(1.05);
   }
-  .explore_button:active{
+  .explore_button:active {
     transform: scale(0.95);
   }
 </style>

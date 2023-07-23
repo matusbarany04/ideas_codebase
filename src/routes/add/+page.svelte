@@ -6,14 +6,46 @@
   import { subscribe } from "svelte/internal";
   import { writable } from 'svelte/store';
 
-  function isFormValid(data) {
-    // if (!isRequiredFieldValid(data.email)) {
-    //   return false;
-    // }
+  let status = ''
+  let statusType = "error"; 
+  let timeOut; 
+  const fade = tweened(1, {
+		duration: 400,
+		easing: cubicOut
+	});
 
-    // if (!isRequiredFieldValid(data.password)) {
-    //   return false;
-    // }
+  function isFormValid(data) {
+    clearTimeout(timeOut);
+
+    if (data.title == null || data.title == ''){
+        status = "Please enter a title";
+        return false;
+    }
+    if (data.email == null ||
+        data.email == ''
+        ) {
+          status = "Please enter an email";
+      return false;
+    }
+    if(!data.email.includes('@')){
+      status = "Invalid email";
+      return false;
+    }
+
+    if (data.description == null ||
+        data.description == '') {
+          status = "Please enter a description";
+      return false;
+    }
+    if(data.description.length < 50){
+      status ="Description is too short. At least 50 characters required"
+      return false;
+    }
+
+    if(data.title.length < 3){
+      status ="Title is too short. At least 3 characters required!"
+      return false;
+    }
     return true;
   }
 
@@ -27,9 +59,40 @@
     }
     if (isFormValid(data)) {
       console.log(data);
+
+      fetch(' http://dismounted.tech:8000/api/new', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+              title: data.title,
+              email: data.email,
+              description: data.description
+          })
+      })
+      .then(response => {
+        console.log(response);
+        statusType = "success";
+      
+        status = "Idea successfuly posted!";
+        e.target.reset();
+      })
     } else {
+   
+      statusType = "error";
       console.log("Invalid Form");
     }
+    timeOut = setTimeout(() => {          
+          fade.set(0);
+          setTimeout(() => {
+            statusType = ''
+            status = ''
+            fade.set(1);
+          },1000)
+        },2000)
+
+    // http://dismounted.tech:8000/api/new
   }
 
 
@@ -113,6 +176,7 @@
 	 
     </div>
   </form>
+  <p class={"status " + statusType} style:opacity={$fade}>{status}</p>
 </main>
 
 <style>
@@ -220,6 +284,19 @@
 	width: 50rem;
 	top: -5rem;
 	right: -48rem;
+  }
+  .status{
+    text-align: center;
+  }
+
+  .success{
+    background-color: var(--primary-color);
+ 
+  }
+
+  .error{
+    background-color: var(--secondary-color);
+ 
   }
 </style>
 <!-- 

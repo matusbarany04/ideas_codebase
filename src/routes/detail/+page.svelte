@@ -1,15 +1,14 @@
 <script>
-  // import { page } from "$app/stores";
+
   import { onMount } from "svelte";
   
-  // const id = $page.url.searchParams.get("id");
-
+ 
   let data;
 
   onMount(async function () {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const id = urlSearchParams.get('id');
-    const response = await fetch("http://localhost:8000/api/ideas/" + id);
+    const response = await fetch("http://dismounted.tech:8000/api/ideas/" + id);
     if(response.status == 200)
       data = await response.json();
     else{
@@ -35,7 +34,7 @@
       <button class="button">BACK</button>
     </a>
   {/if}
-  <!-- {ideas_id} -->
+
 </section>
 
 <style>

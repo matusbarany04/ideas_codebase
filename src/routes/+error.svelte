@@ -1,21 +1,17 @@
 <script>
   
   import { onMount } from "svelte";
-  // import { emojis } from './emojis.js';
+
 import cat from '$lib/images/cat.gif';
 let error_code= "...";
   onMount(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     error_code = urlSearchParams.get('ec');
   });
-  //const error_code = $page.url.searchParams.get("ec");
+
 </script>
 
-<!-- 
-<h1>{$page.status} {$page.error.message}</h1>
-<span style="font-size: 10em">
-	{emojis[$page.status] ?? emojis[500]}
-</span> -->
+
 <div>
 	<img src={cat} alt="">
 	<h1>Error {error_code != null ? error_code : ''}</h1>
